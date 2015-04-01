@@ -39,6 +39,18 @@
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
+    } else if (indexPath.section == 1) {
+        if ([cell.textLabel.text isEqualToString:_filterOptions[@"sort"]]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    } else if (indexPath.section == 2) {
+        if ([cell.textLabel.text isEqualToString:_filterOptions[@"window"]]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     } else {
         if ([cell.textLabel.text isEqualToString:_filterOptions[@"showViral"]]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -76,6 +88,63 @@
             default:
                 break;
         }
+    } else if (indexPath.section == 1) {
+        switch (indexPath.row) {
+            case 0:
+            {
+                [_filterOptions setValue:@"viral" forKey:@"sort"];
+                break;
+            }
+            case 1:
+            {
+                [_filterOptions setValue:@"top" forKey:@"sort"];
+                break;
+            }
+            case 2:
+            {
+                [_filterOptions setValue:@"time" forKey:@"sort"];
+                break;
+            }
+            case 3:
+            {
+                [_filterOptions setValue:@"rising" forKey:@"sort"];
+                break;
+            }
+                
+            default:
+                break;
+        }
+    } else if (indexPath.section == 2) {
+        switch (indexPath.row) {
+            case 0:
+            {
+                [_filterOptions setValue:@"day" forKey:@"window"];
+                break;
+            }
+            case 1:
+            {
+                [_filterOptions setValue:@"week" forKey:@"window"];
+                break;
+            }
+            case 2:
+            {
+                [_filterOptions setValue:@"month" forKey:@"window"];
+                break;
+            }
+            case 3:
+            {
+                [_filterOptions setValue:@"year" forKey:@"window"];
+                break;
+            }
+            case 4:
+            {
+                [_filterOptions setValue:@"all" forKey:@"window"];
+                break;
+            }
+                
+            default:
+                break;
+        }
     } else {
         switch (indexPath.row) {
             case 0:
@@ -93,6 +162,27 @@
                 break;
         }
     }
+    
+    if ([_filterOptions[@"section"] isEqualToString:@"top"]) {
+        if (!_filterOptions[@"window"]) {
+            [_filterOptions setValue:@"day" forKey:@"window"]; // defaults to day
+        }
+    } else {
+        [_filterOptions removeObjectForKey:@"window"];
+    }
+    
+    if ([_filterOptions[@"section"] isEqualToString:@"user"]) {
+        if (!_filterOptions[@"showViral"]) {
+            [_filterOptions setValue:@"true" forKey:@"showViral"]; // defaults to true
+        }
+    } else {
+        [_filterOptions removeObjectForKey:@"showViral"];
+        if ([_filterOptions[@"sort"] isEqualToString:@"rising"]) { // only available with user section
+            [_filterOptions setValue:@"viral" forKey:@"sort"]; // defaults to viral
+        }
+    }
+    
+    NSLog(@"%@", _filterOptions);
     
     [self.tableView reloadData];
 }

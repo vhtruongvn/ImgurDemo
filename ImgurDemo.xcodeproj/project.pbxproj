@@ -472,7 +472,6 @@
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-PSTCollectionView\"",
 					"-l\"Pods-MBProgressHUD\"",
-					"-l\"Pods-ImgurSession\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -492,7 +491,6 @@
 					"-l\"Pods-AFNetworking\"",
 					"-l\"Pods-PSTCollectionView\"",
 					"-l\"Pods-MBProgressHUD\"",
-					"-l\"Pods-ImgurSession\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -17,7 +17,7 @@
 - (instancetype)initWithBaseURL:(NSURL *)url;
 
 + (ImgurAPIClient *)sharedAPIClient;
-- (void)getMainGalleryWithFilter:(NSString *)section page:(NSString *)page showViral:(NSString *)showViral;
+- (void)getMainGalleryWithFilter:(NSString *)section sort:(NSString *)sort window:(NSString *)window page:(NSString *)page showViral:(NSString *)showViral;
 
 @end
 

@@ -45,7 +45,7 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
     // Init Filter Options
     _filterOptions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                       @"hot", @"section",
-                      @"true", @"showViral",
+                      @"viral", @"sort",
                       nil];
     
     // Start loading galleries
@@ -88,7 +88,7 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
     
     ImgurAPIClient *client = [ImgurAPIClient sharedAPIClient];
     client.delegate = self;
-    [client getMainGalleryWithFilter:_filterOptions[@"section"] page:@"0" showViral:_filterOptions[@"showViral"]];
+    [client getMainGalleryWithFilter:_filterOptions[@"section"] sort:_filterOptions[@"sort"] window:_filterOptions[@"window"] page:@"0" showViral:_filterOptions[@"showViral"]];
 }
 
 #pragma mark - IBActions
@@ -134,7 +134,7 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
     
-    if (selector == @selector(getMainGalleryWithFilter:page:showViral:)) {
+    if (selector == @selector(getMainGalleryWithFilter:sort:window:page:showViral:)) {
         if (_galleries == nil) {
             self.galleries = [[NSMutableArray alloc] init];
         }

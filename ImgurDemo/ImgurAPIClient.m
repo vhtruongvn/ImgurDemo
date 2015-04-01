@@ -23,8 +23,9 @@ static NSString * const APIAuthorizationURLString = @"oauth2/authorize";
  window     optional	Change the date range of the request if the section is "top", day | week | month | year | all, defaults to day
  showViral	optional	true | false - Show or hide viral images from the 'user' section. Defaults to true
  */
-// gallery/{section}/{sort}/{page}?showViral=bool
-static NSString * const APIMainGalleryFilterURLString = @"3/gallery/%@/viral/%@?showViral=%@";
+// gallery/{section}/{sort}/{page}.json
+// gallery/{section}/{sort}/{window}/{page}?showViral={bool}
+static NSString * const APIMainGalleryURLString = @"3/gallery";
 
 @implementation ImgurAPIClient
 
@@ -55,19 +56,30 @@ static NSString * const APIMainGalleryFilterURLString = @"3/gallery/%@/viral/%@?
 
 #pragma mark - Gallery API
 
-- (void)getMainGalleryWithFilter:(NSString *)section page:(NSString *)page showViral:(NSString *)showViral
+- (void)getMainGalleryWithFilter:(NSString *)section sort:(NSString *)sort window:(NSString *)window page:(NSString *)page showViral:(NSString *)showViral
 {
-    NSString *urlString = [NSString stringWithFormat:APIMainGalleryFilterURLString, section, page, showViral];
+    NSMutableString *urlString = [[NSMutableString alloc] initWithString:APIMainGalleryURLString];
+    [urlString appendString:[NSString stringWithFormat:@"/%@", section]];
+    [urlString appendString:[NSString stringWithFormat:@"/%@", sort]];
+    if ([section isEqualToString:@"top"]) {
+        [urlString appendString:[NSString stringWithFormat:@"/%@", window]];
+    }
+    [urlString appendString:[NSString stringWithFormat:@"/%@", page]];
+    if ([section isEqualToString:@"user"]) {
+        [urlString appendString:[NSString stringWithFormat:@"?showViral=%@", showViral]];
+    }
+    
+    NSLog(@"%@", urlString);
     
     [self GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([self.delegate respondsToSelector:@selector(apiClient:didReceiveData:fromSelector:)])
         {
-            [self.delegate apiClient:self didReceiveData:responseObject fromSelector:@selector(getMainGalleryWithFilter:page:showViral:)];
+            [self.delegate apiClient:self didReceiveData:responseObject fromSelector:@selector(getMainGalleryWithFilter:sort:window:page:showViral:)];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         if ([self.delegate respondsToSelector:@selector(apiClient:didFailWithError:fromSelector:)])
         {
-            [self.delegate apiClient:self didFailWithError:error fromSelector:@selector(getMainGalleryWithFilter:page:showViral:)];
+            [self.delegate apiClient:self didFailWithError:error fromSelector:@selector(getMainGalleryWithFilter:sort:window:page:showViral:)];
         }
     }];
 }
