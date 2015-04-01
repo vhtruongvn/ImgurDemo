@@ -121,6 +121,7 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
 
 - (IBAction)closeButtonPressed:(id)sender {
     [_imageContainer removeFromSuperview];
+    _imageContainer = nil;
 }
 
 #pragma mark - APIClientDelegate
@@ -218,7 +219,8 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
     if ([type isKindOfClass:[NSString class]]
         && [type containsString:@"image"]) {
         if (_imageContainer == nil) {
-            _imageContainer = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+            CGRect frame = [[UIScreen mainScreen] bounds];
+            _imageContainer = [[UIView alloc] initWithFrame:frame];
             _imageContainer.backgroundColor = [UIColor lightGrayColor];
             _imageContainer.translatesAutoresizingMaskIntoConstraints = NO;
             
@@ -283,6 +285,9 @@ static NSString * const ImageGridCellIdentifier = @"ImageGridCell";
             } else {
                 imageView.image = [UIImage imageNamed:@"placeholder"];
             }
+            
+            [imageView setNeedsUpdateConstraints];
+            [imageView setNeedsLayout];
         }
         
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
