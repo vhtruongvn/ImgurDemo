@@ -1,5 +1,5 @@
-# ImgurDemo
-An demo app that can be used to browse an Imgur gallery using http://api.imgur.com/
+# ImgurGalleryDemo
+A sample app can be used to browse an Imgur gallery using http://api.imgur.com/
 * Show Gallery images in a grid view
 * Show image description over the image, bottom-aligned
 * Cache images in memory / on disk
